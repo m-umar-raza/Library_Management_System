@@ -36,7 +36,7 @@ The `User` class represents a user of the library. Each user has an ID, name, co
 
 8. **Search book by Title or Author**: This feature allows you to search for books by their title or author.
 
-9.**File Handling**: This feature allows the data to be kept safe and not deleted when the program terminates. 
+9. **File Handling**: This feature allows the data to be kept safe and not deleted when the program terminates. 
 
 ## How to Run
 
