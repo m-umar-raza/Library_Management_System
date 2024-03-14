@@ -1,29 +1,27 @@
-// package declaration
 package Library_Management;
 
-// import statements
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// User class
-public class User {
-    // instance variables
+public class User implements Serializable {
+    // Properties of the User class
     public int userID;
     public String name;
     public String contactInfo;
-    public ArrayList<String> borrowedBooks = new ArrayList<>(); // Removed static
+    public ArrayList<String> borrowedBooks = new ArrayList<>();
 
-    // constructor
+    // Constructor for the User class
     User(int userID, String name, String contactInfo) {
         this.setUserID(userID);
         this.setName(name);
         this.setContactInfo(contactInfo);
     }
 
-    // Scanner object
+    // Scanner object for user input
     static Scanner in = new Scanner(System.in);
 
-    // setters
+    // Setter methods for the properties of the User class
     public void setUserID(int id) {
         this.userID = id;
     }
@@ -36,7 +34,7 @@ public class User {
         this.contactInfo = cInfo;
     }
 
-    // getters
+    // Getter methods for the properties of the User class
     public int getUserID() {
         return userID;
     }
@@ -53,23 +51,23 @@ public class User {
         return borrowedBooks;
     }
 
-    // method to borrow books
-    public void borrowBooks(String title) { // Removed static
+    // Method to add a book to the list of borrowed books
+    public void borrowBooks(String title) {
         borrowedBooks.add(title);
-        System.out.println("*Book borrowed Successfully*\n");
+        System.out.println("Book borrowed Successfully\n");
     }
 
-    // method to return books
-    public void returnBooks(String title) { // Removed static
+    // Method to return a book from the list of borrowed books
+    public void returnBooks(String title) {
         if (!this.borrowedBooks.contains(title)) {
             System.out.println("You did not borrow this book, so you cannot return it.");
             return;
         }
         borrowedBooks.remove(title);
-        System.out.println("*Book returned Successfully*\n");
+        System.out.println("Book returned Successfully\n");
     }
 
-    // method to add user
+    // Method to add a new user
     public static void addUser() {
         System.out.println("Enter User ID:");
         int UserID;
@@ -90,10 +88,10 @@ public class User {
         System.out.println("Enter Contact Information:");
         String contactInfo = in.nextLine();
         Library.users.add(new User(UserID, name, contactInfo));
-        System.out.println("*User added Successfully*\n");
+        System.out.println("User added Successfully\n");
     }
 
-    // method to search books by user ID
+    // Method to search for books borrowed by a user
     public static void searchBooksByUserID() {
         System.out.println("Enter User ID to search for books: ");
         int uID;
@@ -120,9 +118,9 @@ public class User {
         }
     }
 
-    // method to display users
-    public static void displayUsers() { // Removed static
-        System.out.println("List of Users:"); //
+    // Method to display all users
+    public static void displayUsers() {
+        System.out.println("List of Users:");
         System.out.println("---------------");
         for (User user : Library.users) {
             System.out.println("User ID: " + user.getUserID());
@@ -133,7 +131,7 @@ public class User {
         }
     }
 
-    // toString method
+    // Overriding toString() method to get desired results
     public String toString() {
         return "Name : " + name + "\nUser ID: " + userID + "\nContact Information: " + contactInfo;
     }
