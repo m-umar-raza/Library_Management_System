@@ -2,9 +2,10 @@ package Library_Management;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.*;
 
-public class Library {
-    // ArrayList to store books and users
+public class Library implements Serializable {
+    // ArrayLists to store books and users
     public static ArrayList<Book> books = new ArrayList<>();
     public static ArrayList<User> users = new ArrayList<>();
 
@@ -29,6 +30,7 @@ public class Library {
         while (true) {
             if (userName.equals(myUser) && userPass == myPass) {
                 System.out.println("Authentication successful!");
+                loadData(); // Load data when authentication is successful
                 break;
             } else {
                 System.out.println("Wrong Username or Password");
@@ -68,51 +70,84 @@ public class Library {
                 continue;
             }
             switch (opt) {
-                // Add a User
                 case 1:
-                    User.addUser();
+                    User.addUser(); // Add a user
+                    saveData(); // Save data after adding user
                     break;
-                // Add a Book
                 case 2:
-                    Book.addBook();
+                    Book.addBook(); // Add a book
+                    saveData(); // Save data after adding book
                     break;
-                // Borrow a Book
                 case 3:
-                    Book.displayTitles();
-                    Book.borrowBook();
+                    Book.displayTitles(); // Display book titles
+                    Book.borrowBook(); // Borrow a book
+                    saveData(); // Save data after borrowing book
                     break;
-                // Return a Book
                 case 4:
-                    Book.returnBook();
+                    Book.returnBook(); // Return a book
+                    saveData(); // Save data after returning book
                     break;
-                // Search for Books by User ID
                 case 5:
-                    User.searchBooksByUserID();
+                    User.searchBooksByUserID(); // Search for books by user ID
                     break;
-                // Display All Books
                 case 6:
-                    Book.displayBook();
+                    Book.displayBook(); // Display all books
                     break;
-                // Display All Users
                 case 7:
-                    User.displayUsers();
+                    User.displayUsers(); // Display all users
                     break;
-                // Search book by Title or Author
                 case 8:
-                    Book.searchBookByTitleOrAuthor();
-                    break;
-                // Exit
-                case 9:
-                    System.out.println("Exiting...");
-                    System.exit(0);
+                    Book.searchBookByTitleOrAuthor(); // Search book by title or author
                     break;
                 default:
                     System.out.println("Invalid option! Please enter a valid option.");
+                    break;
+                case 9:
+                    System.out.println("Exiting...");
+                    System.exit(0); // Exit the program
                     break;
             }
             System.out.println("Do you want to continue(y/n)? ");
             again = in.nextLine();
         }
     }
-}
 
+    // Method to load data from file
+    public static void loadData() {
+        try {
+            FileInputStream fis = new FileInputStream("libraryData.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            books = (ArrayList<Book>) ois.readObject();
+            users = (ArrayList<User>) ois.readObject();
+
+            ois.close();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            // File does not exist, initialize books and users as empty lists
+            books = new ArrayList<>();
+            users = new ArrayList<>();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found");
+            c.printStackTrace();
+        }
+    }
+
+    // Method to save data to file
+    public static void saveData() {
+        try {
+            FileOutputStream fos = new FileOutputStream("libraryData.txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(books);
+            oos.writeObject(users);
+
+            oos.close();
+            fos.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+}
